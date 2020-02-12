@@ -64,7 +64,6 @@ IMGModel.addNew = ({ titulo, urlIMG, thumbnailUrlIMG, AlbumIMG }  )=>{
 }
 
 
-
 IMGModel.deleteByCode = (id)=>{
   var newCollection = [];
   newCollection = IMGCollection.filter(
@@ -77,5 +76,34 @@ IMGModel.deleteByCode = (id)=>{
   return true;
 }
 
+IMGModel.update = (id, { titulo, urlIMG, thumbnailUrlIMG, AlbumIMG })=>{
+    var updatingIMG = IMGCollection.filter(
+      (o, i)=>{
+        return o.ID === id;
+      }
+    );
+    if(updatingIMG && updatingIMG.length>0){
+      updatingIMG = updatingIMG[0];
+    } else {
+      return null;
+    }
+    var updateIMG = {};
+    var newUpdatedCollection = IMGCollection.map(
+      (o, i)=>{
+        if(o.ID === id){
+          updateIMG = Object.assign({},
+             o,
+            { Tittle: titulo, URL_imagen:urlIMG, thumbnailUrl: thumbnailUrlIMG, album: AlbumIMG,}
+          );
+          return updateIMG;
+        }else{
+          return o;
+        }
+      }
+    );
+     IMGCollection = newUpdatedCollection;
+     writeToFile();
+     return updateIMG;
+   }
 
 module.exports = IMGModel;

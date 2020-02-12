@@ -18,6 +18,12 @@ router.post('/IMG/new', (req, res)=>{
   return res.status(200).json(newIMG);
 }); 
 
+router.put('/IMG/upd/:id', (req, res)=>{
+  var id = parseInt(req.params.id);
+  var updIMG = IMGModel.update( id, req.body);
+  return res.status(200).json(updIMG);
+});
+
 router.delete('/IMG/del/:id', (req, res)=>{
   var id = parseInt(req.params.id);
   IMGModel.deleteByCode(id);
