@@ -32,15 +32,50 @@ IMGModel.getAll = ()=>{
 }
 
 IMGModel.getById = (id)=>{
-  var filteredUsers = IMGCollection.filter(
+  var filteredIMG = IMGCollection.filter(
     (o)=>{
       return o.Id === id;
     }
   );
-  if(filteredUsers.length){
-    return filteredUsers[0];
+  if(filteredIMG.length){
+    return filteredIMG[0];
   }else{
     return null
   }
 }
 
+IMGModel.addNew = ({ titulo, urlIMG, thumbnailUrlIMG, AlbumIMG }  )=>{
+  var newIMG = Object.assign(
+    {},
+    IMGTemplate,
+    {  
+        Tittle: titulo,
+        URL_imagen: urlIMG,
+        thumbnailUrl: thumbnailUrlIMG,
+        album: AlbumIMG,
+        IMGDateCreated: new Date().getTime()
+    }
+  );
+  newIMG.IMGID = IMGCollection.length + 1;
+
+  IMGCollection.push(newIMG);
+  writeToFile();
+  return newIMG;
+}
+
+
+
+IMGModel.deleteByCode = (id)=>{
+  var newCollection = [];
+  newCollection = IMGCollection.filter(
+    (o)=>{
+      return o.ID !== id;
+    }
+  );
+  IMGCollection = newCollection;
+  writeToFile();
+  return true;
+}
+
+
+module.exports = IMGModel;
